@@ -1,0 +1,26 @@
+name: "Open and edit document"
+description: "Example workflow for opening text editor and writing"
+
+steps:
+  - action: "vision.find"
+    target: "text_editor_icon.png"
+    timeout: 10
+
+  - action: "hands.click"
+    use_previous_result: true
+
+  - action: "integration.wait"
+    target: "Text Editor Window"
+    timeout: 5
+
+  - action: "hands.type"
+    text: "This is automated text written by Claude Vision & Hands!"
+
+  - action: "hands.hotkey"
+    keys: ["ctrl", "s"]
+
+  - action: "hands.type"
+    text: "automated_document.txt"
+
+  - action: "hands.press"
+    key: "enter"

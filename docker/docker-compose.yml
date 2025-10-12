@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  vision-hands:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: claude-vision-hands
+    environment:
+      - DISPLAY=:99
+    ports:
+      - "5900:5900"  # VNC port
+    volumes:
+      - ../mcp-servers:/app/mcp-servers
+      - vision-cache:/root/.claude-vision-cache
+      - hands-logs:/root/.claude-hands-logs
+      - workflows:/root/.claude-workflows
+    restart: unless-stopped
+
+volumes:
+  vision-cache:
+  hands-logs:
+  workflows:

@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+*.jsonl
+
+# Cache
+.cache/
+*.cache
+.claude-vision-cache/
+.claude-hands-logs/
+.claude-workflows/
+
+# Local settings (may contain API keys)
+.claude/
+settings.local.json
+config.local.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Screenshots
+screenshots/
+*.png
+!examples/**/*.png
+!docs/**/*.png
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
