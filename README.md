@@ -230,31 +230,25 @@ MIT License - see [LICENSE](LICENSE) for details.
 - 💬 [Discussions](https://github.com/yourusername/claude-vision-hands/discussions)
 - 📖 [Documentation](docs/)
 
-## 🗺️ Roadmap
+## ✅ Current Features
 
-### Q1 2025
-- [x] Basic screen capture
-- [x] Mouse/keyboard control
-- [x] OCR integration
-- [x] Docker deployment
+- ✅ **Screen capture** - Full screen, monitor, region capture
+- ✅ **OCR text extraction** - PaddleOCR integration
+- ✅ **UI element detection** - Template matching
+- ✅ **Mouse/keyboard control** - PyAutoGUI automation
+- ✅ **Multi-monitor support** - Capture from any display
+- ✅ **Safety features** - Failsafe, rate limiting, audit logs
+- ✅ **MCP Protocol** - Full Claude Code integration
+- ✅ **Docker support** - Ready for deployment
 
-### Q2 2025
-- [ ] AI vision models (YOLO)
-- [ ] Workflow recorder
-- [ ] Multi-monitor optimization
-- [ ] Wayland full support
+## 💡 Potential Future Enhancements
 
-### Q3 2025
-- [ ] GPU acceleration
-- [ ] Cloud deployment
-- [ ] Mobile device control
-- [ ] Browser extension
-
-### Q4 2025
-- [ ] Enterprise features
-- [ ] Advanced security
-- [ ] Performance optimization
-- [ ] Community plugins
+Community contributions welcome for:
+- AI vision models (YOLO, object detection)
+- Workflow recorder/playback
+- Wayland protocol improvements
+- Mobile device control
+- Browser extension
 
 ---
 
