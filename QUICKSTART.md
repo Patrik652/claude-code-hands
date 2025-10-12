@@ -5,7 +5,7 @@
 ### 1. Install
 
 ```bash
-cd ~/claude-vision-hands
+cd ~/claude-code-hands
 ./claude-code-integration/setup.sh
 ```
 
@@ -83,14 +83,13 @@ export DISPLAY=:0
 **Permission denied?**
 ```bash
 chmod +x claude-code-integration/setup.sh
-chmod +x examples/basic-automation.py
 ```
 
 ## Get Help
 
 - 📖 [Full Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/yourusername/claude-vision-hands/issues)
-- 💬 [Discussions](https://github.com/yourusername/claude-vision-hands/discussions)
+- 🐛 [Report Issues](https://github.com/Patrik652/claude-code-hands/issues)
+- 💬 [Discussions](https://github.com/Patrik652/claude-code-hands/discussions)
 
 ---
 

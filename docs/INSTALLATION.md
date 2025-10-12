@@ -14,8 +14,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/claude-vision-hands
-cd claude-vision-hands
+git clone https://github.com/Patrik652/claude-code-hands
+cd claude-code-hands
 
 # Run setup script
 ./claude-code-integration/setup.sh

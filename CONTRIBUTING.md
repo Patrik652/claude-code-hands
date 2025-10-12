@@ -6,7 +6,7 @@ First off, thank you for considering contributing! 🎉
 
 ### Reporting Bugs
 
-1. Check if the bug is already reported in [Issues](https://github.com/yourusername/claude-vision-hands/issues)
+1. Check if the bug is already reported in [Issues](https://github.com/Patrik652/claude-code-hands/issues)
 2. Create a new issue with:
    - Clear title and description
    - Steps to reproduce
@@ -16,7 +16,7 @@ First off, thank you for considering contributing! 🎉
 
 ### Suggesting Features
 
-1. Check [existing feature requests](https://github.com/yourusername/claude-vision-hands/issues?q=is%3Aissue+label%3Aenhancement)
+1. Check [existing feature requests](https://github.com/Patrik652/claude-code-hands/issues?q=is%3Aissue+label%3Aenhancement)
 2. Create a new issue with:
    - Clear use case
    - Expected behavior
@@ -42,20 +42,25 @@ First off, thank you for considering contributing! 🎉
 
 ### Testing
 
-```bash
-# Run tests
-pytest tests/
+Tests can be added in the future. For now, manually test servers:
 
-# Run with coverage
-pytest --cov=mcp-servers tests/
+```bash
+# Test Vision MCP
+python3 mcp-servers/vision-mcp/server.py
+
+# Test Hands MCP
+python3 mcp-servers/hands-mcp/server.py
+
+# Test Integration MCP
+python3 mcp-servers/integration-mcp/server.py
 ```
 
 ## Development Setup
 
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/claude-vision-hands
-cd claude-vision-hands
+git clone https://github.com/Patrik652/claude-code-hands
+cd claude-code-hands
 
 # Create virtual environment
 python3 -m venv venv

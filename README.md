@@ -24,8 +24,8 @@ Claude Vision & Hands je open-source systém, ktorý dáva Claude Code schopnos�
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/claude-vision-hands
-cd claude-vision-hands
+git clone https://github.com/Patrik652/claude-code-hands
+cd claude-code-hands
 
 # Install dependencies
 pip install -r mcp-servers/vision-mcp/requirements.txt
@@ -193,22 +193,15 @@ FORBIDDEN_AREAS = [
 ### Project Structure
 
 ```
-claude-vision-hands/
+claude-code-hands/
 ├── mcp-servers/
 │   ├── vision-mcp/         # Vision server
 │   ├── hands-mcp/          # Control server
 │   └── integration-mcp/    # Coordinator
 ├── docker/                 # Docker configs
 ├── examples/               # Usage examples
-├── tests/                  # Test suite
 ├── docs/                   # Documentation
 └── claude-code-integration/ # Claude Code setup
-```
-
-### Running Tests
-
-```bash
-pytest tests/
 ```
 
 ### Contributing
@@ -226,8 +219,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 📞 Support
 
-- 🐛 [Issues](https://github.com/yourusername/claude-vision-hands/issues)
-- 💬 [Discussions](https://github.com/yourusername/claude-vision-hands/discussions)
+- 🐛 [Issues](https://github.com/Patrik652/claude-code-hands/issues)
+- 💬 [Discussions](https://github.com/Patrik652/claude-code-hands/discussions)
 - 📖 [Documentation](docs/)
 
 ## ✅ Current Features
