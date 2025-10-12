@@ -8,7 +8,7 @@
 
 ## 🎯 Overview
 
-Claude Vision & Hands je open-source systém, ktorý dáva Claude Code schopnosť vidieť obrazovku a ovládať počítač. Inšpirované Windsurf IDE, ale 100% open source s MIT licenciou.
+Claude Vision & Hands je open-source systém, ktorý dáva Claude Code schopnosť vidieť obrazovku a ovládať počítač. 100% open source s MIT licenciou.
 
 ### Hlavné funkcie
 
@@ -221,7 +221,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
-- Inspired by Windsurf IDE
 - Built on MCP Protocol
 - Uses PaddleOCR, OpenCV, PyAutoGUI
 
