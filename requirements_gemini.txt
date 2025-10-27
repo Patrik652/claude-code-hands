@@ -1,0 +1,6 @@
+# Gemini AI Integration Requirements
+google-generativeai>=0.3.0
+python-dotenv>=1.0.0
+pyyaml>=6.0
+paddlepaddle>=2.5.0
+paddleocr>=2.7.0

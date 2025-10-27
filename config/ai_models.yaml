@@ -1,0 +1,116 @@
+# AI Models Configuration for Claude Vision Hands
+# This file configures Gemini API and fallback options
+
+gemini:
+  # API configuration
+  api_key: ${GEMINI_API_KEY}  # Set in .env file
+  model: "gemini-2.5-flash"   # Fast, efficient model with good accuracy
+  
+  # Rate limits (free tier)
+  daily_limit: 250             # Max requests per day
+  requests_per_minute: 10      # Max requests per minute
+  
+  # Model capabilities
+  context_window: 1048576      # 1M tokens context
+  max_image_size: 20971520     # 20MB max image size
+  supported_formats: ["png", "jpg", "jpeg", "webp", "gif"]
+  
+  # Prompting configuration
+  default_prompts:
+    ui_analysis: |
+      Analyze this screenshot and identify:
+      1. All clickable elements (buttons, links, icons)
+      2. Text input fields and their labels
+      3. Important text content
+      4. Layout structure
+      5. Current state/context of the interface
+      Format as JSON with element types and positions.
+    
+    element_detection: |
+      Detect all interactive UI elements.
+      Return JSON with: type, text, position [x,y,width,height], confidence.
+    
+    text_extraction: |
+      Extract all visible text from the image.
+      Organize by sections and importance.
+
+# Fallback options when Gemini unavailable
+fallback:
+  primary: "paddleocr"         # Main fallback
+  secondary: "tesseract"       # Secondary fallback
+  
+  paddleocr:
+    use_angle_cls: true
+    lang: "en"
+    det_algorithm: "DB"
+    rec_algorithm: "CRNN"
+    cls_algorithm: "ClsNet"
+    use_gpu: false
+    
+  tesseract:
+    lang: "eng"
+    oem: 3                     # OCR Engine Mode
+    psm: 3                     # Page Segmentation Mode
+
+# Retry configuration
+retry:
+  max_attempts: 3
+  backoff_factor: 2            # Exponential backoff
+  max_delay: 30                # Max delay in seconds
+  
+# Model switching rules
+switching:
+  # Automatically switch to fallback when:
+  quota_threshold: 10         # Less than 10 requests remaining
+  error_threshold: 3          # 3 consecutive errors
+  latency_threshold: 10000    # Response takes > 10 seconds
+  
+  # Prefer Gemini for these tasks:
+  prefer_ai_for:
+    - "complex_ui_understanding"
+    - "context_analysis"
+    - "element_relationships"
+    - "semantic_understanding"
+  
+  # Use OCR directly for these tasks:
+  prefer_ocr_for:
+    - "simple_text_extraction"
+    - "bulk_processing"
+    - "offline_mode"
+
+# Caching configuration
+cache:
+  enabled: true
+  ttl: 300                    # Cache for 5 minutes
+  max_size: 100               # Max 100 cached results
+  
+# Logging configuration
+logging:
+  level: "INFO"
+  file: "logs/ai_analyzer.log"
+  max_size: "10MB"
+  backup_count: 5
+  
+# Performance monitoring
+monitoring:
+  track_latency: true
+  track_accuracy: true
+  track_costs: true
+  report_interval: 3600       # Report every hour
+
+# Future model support (prepared for expansion)
+future_models:
+  llama:
+    enabled: false
+    model: "llama-3.2-vision"
+    api_url: "http://localhost:11434"  # Ollama endpoint
+    
+  claude:
+    enabled: false
+    model: "claude-3-sonnet"
+    api_key: ${ANTHROPIC_API_KEY}
+    
+  mistral:
+    enabled: false
+    model: "pixtral-12b"
+    api_key: ${MISTRAL_API_KEY}

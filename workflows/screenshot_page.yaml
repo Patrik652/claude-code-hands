@@ -1,0 +1,18 @@
+name: screenshot_page
+description: Navigate to URL and take screenshot
+steps:
+  - name: Navigate to target
+    action: navigate
+    params:
+      url: "{{target_url}}"
+      
+  - name: Wait for page load
+    action: wait
+    params:
+      selector: body
+      state: visible
+      
+  - name: Take screenshot
+    action: screenshot
+    params:
+      full_page: true

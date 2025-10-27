@@ -21,6 +21,15 @@ from pynput import mouse, keyboard as pynput_keyboard
 from fastmcp import FastMCP, Context
 from pydantic import BaseModel, Field
 
+# Browser Control Integration
+sys.path.append(str(Path(__file__).parent.parent / "browser-mcp"))
+try:
+    from browser_integration import BrowserIntegration
+    BROWSER_AVAILABLE = True
+except ImportError as e:
+    BROWSER_AVAILABLE = False
+    print(f"⚠️ Browser control not available: {e}")
+
 # Initialize MCP server
 app = FastMCP("hands-mcp")
 
@@ -505,6 +514,18 @@ if __name__ == "__main__":
     except ImportError as e:
         print(f"❌ Missing dependency: {e}")
         sys.exit(1)
+
+    # Initialize browser integration
+    if BROWSER_AVAILABLE:
+        try:
+            browser_integration = BrowserIntegration(app)
+            asyncio.run(browser_integration.initialize())
+            browser_integration.register_tools()
+            print("🌐 Browser Control: Atlas-like capabilities enabled!")
+        except Exception as e:
+            print(f"⚠️ Browser integration failed: {e}")
+    else:
+        print("📋 Browser Control: Not available (desktop control only)")
 
     # Run server
     print("🚀 Server ready on stdio")

@@ -1,0 +1,83 @@
+# Memory System Configuration
+# ChromaDB Vector Memory for Claude Vision & Hands
+
+memory:
+  # Enable/disable memory system
+  enabled: true
+
+  # Storage configuration
+  storage:
+    path: "~/.claude-vision-hands/memory"
+    max_size_mb: 500
+    chromadb:
+      index_type: "hnsw"
+      hnsw:
+        M: 16
+        ef_construction: 200
+        ef_search: 100
+
+  # Embedding configuration
+  embeddings:
+    model: "sentence-transformers/all-MiniLM-L6-v2"
+    device: "cpu"  # or "cuda" for GPU
+    cache_size: 1000
+    batch_size: 32
+
+  # Auto-capture settings
+  auto_capture:
+    enabled: true
+    triggers:
+      ai_analysis: true
+      successful_actions: true
+      failed_actions: true
+      workflow_completion: true
+      manual_save: true
+    filters:
+      min_interval_seconds: 5
+      ignore_mouse_moves: true
+      ignore_sessions: []
+
+  # Retention policy
+  retention:
+    default_retention_days: 30
+    max_items_per_collection: 10000
+    cleanup:
+      enabled: true
+      schedule: "daily"
+      time: "03:00"
+    tiers:
+      recent:
+        max_age_days: 7
+        max_items: null
+      medium:
+        max_age_days: 30
+        max_items: 1000
+        keep_successful: true
+        discard_repetitive: true
+      long_term:
+        max_age_days: 365
+        max_items: 500
+        keep_criteria:
+          successful_workflows: true
+          manual_bookmarks: true
+          unique_screens: true
+
+  # Privacy settings
+  privacy:
+    redact_screenshots: false
+    redact_patterns: []
+    exclude_sessions: []
+    auto_delete_days: 30
+    delete_on_exit: false
+
+  # Performance tuning
+  performance:
+    batch_size: 100
+    embedding_batch_size: 32
+    search_timeout_ms: 5000
+    query_cache_ttl_seconds: 300
+
+  # Logging
+  logging:
+    level: "INFO"
+    file: "~/.claude-vision-hands/logs/memory.log"

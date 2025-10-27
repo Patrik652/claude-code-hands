@@ -7,23 +7,15 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 
-# Virtual environments
+# Virtual Environment
 venv/
-env/
 ENV/
+env/
+.venv
 
 # IDE
 .vscode/
@@ -31,38 +23,49 @@ ENV/
 *.swp
 *.swo
 *~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+.cache
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Environment variables
+.env
+.env.local
 
 # Logs
 *.log
-*.jsonl
+logs/
 
-# Cache
-.cache/
-*.cache
-.claude-vision-cache/
-.claude-hands-logs/
-.claude-workflows/
-
-# Local settings (may contain API keys)
-.claude/
-settings.local.json
-config.local.*
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Docker
-*.env
-docker-compose.override.yml
-
-# Screenshots
+# Data directories
+data/
+recordings/
+memory/
 screenshots/
-*.png
-!examples/**/*.png
-!docs/**/*.png
+.claude-vision-hands/
+chroma/
+*.sqlite3
 
-# Test
-.pytest_cache/
-.coverage
-htmlcov/
+# Temporary files
+temp/
+tmp/
+*.tmp
+*.bak
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Development
+.augment/
+.claude/
+
+# Secrets
+secrets/
+*.pem
+*.key

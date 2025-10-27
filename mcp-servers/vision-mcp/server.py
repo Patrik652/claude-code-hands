@@ -27,6 +27,13 @@ from fastmcp import FastMCP, Context
 from fastmcp.tools import Tool
 from pydantic import BaseModel, Field
 
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent.parent.parent / ".env")
+
+# AI Analyzer
+from analyzers.gemini_analyzer import GeminiVisionAnalyzer
+
 # Initialize MCP server
 app = FastMCP("vision-mcp")
 
@@ -504,6 +511,145 @@ async def cleanup_cache(
         log_action("cleanup_cache_error", {"error": str(e)})
         raise Exception(f"Cache cleanup failed: {str(e)}")
 
+# Initialize AI Analyzer (lazy loading)
+gemini_analyzer = None
+
+def get_gemini_analyzer():
+    """Lazy load Gemini analyzer"""
+    global gemini_analyzer
+    if gemini_analyzer is None:
+        config_path = Path(__file__).parent.parent.parent / "config" / "ai_models.yaml"
+        gemini_analyzer = GeminiVisionAnalyzer(config_path=str(config_path))
+    return gemini_analyzer
+
+# AI-Powered MCP Tools
+
+@app.tool()
+async def analyze_screen_ai(
+    prompt: str = "Analyze this screenshot and identify all UI elements",
+    use_fallback: bool = True
+) -> Dict[str, Any]:
+    """
+    AI-powered screen analysis using Gemini 2.5 Flash
+
+    Args:
+        prompt: Analysis question/prompt
+        use_fallback: Use PaddleOCR fallback if quota exceeded
+
+    Returns:
+        AI analysis with identified elements and insights
+    """
+    try:
+        # Capture screenshot
+        screen_data = await capture_screen()
+        img_data = base64.b64decode(screen_data["image"])
+        screenshot = Image.open(BytesIO(img_data))
+
+        # Get analyzer
+        analyzer = get_gemini_analyzer()
+
+        # Analyze with AI
+        result = analyzer.analyze_screenshot(screenshot, prompt=prompt)
+
+        # Log action
+        log_action("analyze_screen_ai", {
+            "prompt": prompt,
+            "provider": result.get("provider", "unknown"),
+            "quota_used": result.get("quota_used", 0)
+        })
+
+        return result
+
+    except Exception as e:
+        log_action("analyze_screen_ai_error", {"error": str(e)})
+        return {
+            "success": False,
+            "error": str(e),
+            "fallback_available": use_fallback
+        }
+
+@app.tool()
+async def find_element_ai(
+    element_description: str,
+    screenshot: Optional[str] = None
+) -> Dict[str, Any]:
+    """
+    Find UI element using AI vision (semantic search)
+
+    Args:
+        element_description: Description of element to find (e.g., "submit button", "login field")
+        screenshot: Optional base64 screenshot, captures new if not provided
+
+    Returns:
+        Element location and details if found
+    """
+    try:
+        # Get screenshot
+        if screenshot:
+            img_data = base64.b64decode(screenshot)
+            image = Image.open(BytesIO(img_data))
+        else:
+            screen_data = await capture_screen()
+            img_data = base64.b64decode(screen_data["image"])
+            image = Image.open(BytesIO(img_data))
+
+        # Get analyzer
+        analyzer = get_gemini_analyzer()
+
+        # Find element
+        element = analyzer.find_element(image, element_description)
+
+        # Log action
+        log_action("find_element_ai", {
+            "description": element_description,
+            "found": element is not None
+        })
+
+        if element:
+            return {
+                "found": True,
+                "element": element,
+                "description": element_description
+            }
+        else:
+            return {
+                "found": False,
+                "description": element_description,
+                "message": "Element not found"
+            }
+
+    except Exception as e:
+        log_action("find_element_ai_error", {"error": str(e)})
+        return {
+            "found": False,
+            "error": str(e)
+        }
+
+@app.tool()
+async def ai_status() -> Dict[str, Any]:
+    """
+    Get AI analyzer status, quota usage, and capabilities
+
+    Returns:
+        Status information including quota, provider, and capabilities
+    """
+    try:
+        analyzer = get_gemini_analyzer()
+        status = analyzer.get_status()
+
+        return {
+            "status": "healthy",
+            "analyzer": status,
+            "timestamp": datetime.now().isoformat()
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
 # Main entry point
 if __name__ == "__main__":
     # Print startup info
@@ -520,6 +666,13 @@ if __name__ == "__main__":
     except ImportError as e:
         print(f"❌ Missing dependency: {e}")
         sys.exit(1)
+
+    # Check AI analyzer
+    try:
+        analyzer = get_gemini_analyzer()
+        print(f"🤖 AI Analyzer: {analyzer.gemini_available and 'Gemini Ready' or 'Fallback OCR Only'}")
+    except Exception as e:
+        print(f"⚠️ AI Analyzer: {e}")
 
     # Run server
     print("🚀 Server ready on stdio")

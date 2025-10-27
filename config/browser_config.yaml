@@ -1,0 +1,209 @@
+# Browser Control Configuration
+# Settings for Playwright browser automation
+
+browser:
+  # Browser engine: chromium, firefox, webkit
+  engine: chromium
+  
+  # Launch options
+  launch:
+    headless: false  # Set to true for headless mode
+    slow_mo: 100     # Slow down operations by ms (for debugging)
+    devtools: false  # Open devtools
+    
+  # Browser args
+  args:
+    - "--no-sandbox"
+    - "--disable-setuid-sandbox"
+    - "--disable-dev-shm-usage"
+    - "--disable-accelerated-2d-canvas"
+    - "--no-first-run"
+    - "--no-zygote"
+    
+  # Context options
+  context:
+    viewport:
+      width: 1920
+      height: 1080
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    locale: "en-US"
+    timezone: "America/New_York"
+    
+  # Permissions
+  permissions:
+    - "geolocation"
+    - "notifications"
+    - "camera"
+    - "microphone"
+    
+  # Storage
+  storage:
+    cookies: true
+    local_storage: true
+    session_storage: true
+
+# Automation settings
+automation:
+  # Default timeouts (ms)
+  timeouts:
+    navigation: 30000
+    wait_for_element: 10000
+    action: 5000
+    
+  # Retry settings
+  retry:
+    max_attempts: 3
+    delay: 1000
+    backoff: 2
+    
+  # Smart wait strategies
+  wait_strategies:
+    - "domcontentloaded"
+    - "networkidle"
+    - "load"
+    
+  # Screenshot settings
+  screenshots:
+    on_error: true
+    on_success: false
+    path: "/tmp/browser_screenshots"
+    format: "png"
+    
+  # Recording settings
+  recording:
+    enabled: false
+    path: "/tmp/browser_recordings"
+    
+# Workflow settings
+workflows:
+  # Directory for workflow files
+  directory: "./workflows"
+  
+  # Auto-load workflows on startup
+  auto_load: true
+  
+  # Workflow execution
+  execution:
+    parallel: false
+    max_concurrent: 1
+    continue_on_error: false
+    
+  # Variable substitution
+  variables:
+    enable_env_vars: true
+    enable_secrets: true
+    
+# Integration settings
+integration:
+  # Control modes
+  modes:
+    - "hybrid"        # Both browser and desktop
+    - "browser_only"  # Only browser control
+    - "desktop_only"  # Only desktop control
+    
+  # Default mode
+  default_mode: "hybrid"
+  
+  # Smart switching
+  auto_switch:
+    enabled: true
+    rules:
+      - if_url_matches: ".*"
+        use: "browser"
+      - if_window_title: "Terminal"
+        use: "desktop"
+        
+# Security settings
+security:
+  # Sandbox mode
+  sandbox: true
+  
+  # Forbidden URLs
+  forbidden_urls:
+    - "file://*"
+    - "chrome://*"
+    - "about:*"
+    
+  # Cookie handling
+  cookies:
+    accept_third_party: false
+    clear_on_exit: true
+    
+  # JavaScript
+  javascript:
+    enabled: true
+    block_popups: true
+    
+# Performance settings
+performance:
+  # Resource limits
+  limits:
+    max_pages: 5
+    max_contexts: 2
+    memory_mb: 2048
+    
+  # Optimization
+  optimization:
+    cache_enabled: true
+    preload_resources: false
+    lazy_loading: true
+    
+# Monitoring
+monitoring:
+  # Logging
+  logging:
+    level: "INFO"
+    file: "/tmp/browser_control.log"
+    
+  # Metrics
+  metrics:
+    track_performance: true
+    track_errors: true
+    track_usage: true
+    
+  # Health checks
+  health_check:
+    enabled: true
+    interval: 60  # seconds
+    
+# Atlas-like features
+atlas_features:
+  # Agent mode
+  agent_mode:
+    enabled: true
+    ask_permission: true
+    max_steps: 50
+    
+  # Memory
+  memory:
+    enabled: true
+    max_items: 1000
+    ttl: 86400  # 24 hours
+    
+  # ARIA optimization
+  aria:
+    enabled: true
+    cache_tree: true
+    update_interval: 5000
+    
+  # Smart navigation
+  smart_nav:
+    enabled: true
+    max_depth: 3
+    follow_redirects: true
+    
+# Development settings
+development:
+  # Debug mode
+  debug: false
+  
+  # Verbose logging
+  verbose: false
+  
+  # Save HTML on error
+  save_html: true
+  
+  # Trace files
+  trace:
+    enabled: false
+    path: "/tmp/traces"

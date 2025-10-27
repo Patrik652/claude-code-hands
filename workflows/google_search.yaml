@@ -1,0 +1,30 @@
+name: google_search
+description: Search Google and extract results
+steps:
+  - name: Navigate to Google
+    action: navigate
+    params:
+      url: https://www.google.com
+      
+  - name: Accept cookies if present
+    action: click
+    params:
+      text: "Accept all"
+    required: false
+    
+  - name: Enter search query
+    action: fill
+    params:
+      selector: 'textarea[name="q"]'
+      value: "{{search_query}}"
+      press_enter: true
+      
+  - name: Wait for results
+    action: wait
+    params:
+      selector: '#search'
+      timeout: 5000
+      
+  - name: Extract results
+    action: extract
+    store_as: search_results
