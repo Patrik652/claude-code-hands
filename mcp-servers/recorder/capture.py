@@ -74,11 +74,9 @@ class WorkflowCapture:
         self.is_recording = False
         self.current_session: Optional[RecordingSession] = None
 
-        # Storage configuration
-        self.storage_dir = Path(self.config.get(
-            'storage_dir',
-            '~/.claude-vision-hands/recordings'
-        )).expanduser()
+        # Storage configuration (support both storage_dir and storage_path)
+        storage_path = self.config.get('storage_dir') or self.config.get('storage_path', '~/.claude-vision-hands/recordings')
+        self.storage_dir = Path(storage_path).expanduser()
         self.storage_dir.mkdir(parents=True, exist_ok=True)
 
         # Screenshot configuration

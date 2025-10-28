@@ -54,9 +54,30 @@ class AIOrchestrator:
         """Lazy load vision analyzer"""
         if self._vision is None:
             try:
-                from vision_mcp.analyzers.gemini_analyzer import GeminiVisionAnalyzer
-                self._vision = GeminiVisionAnalyzer()
-                logger.info("Vision AI loaded")
+                import sys
+                import signal
+                from pathlib import Path
+
+                # Timeout handler for slow initialization
+                def timeout_handler(signum, frame):
+                    raise TimeoutError("Vision analyzer initialization timed out")
+
+                # Add vision-mcp to path
+                vision_path = Path(__file__).parent.parent / 'vision-mcp'
+                if str(vision_path) not in sys.path:
+                    sys.path.insert(0, str(vision_path))
+
+                # Set 5 second timeout for initialization (PaddleOCR can be slow)
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(5)
+
+                try:
+                    from analyzers.gemini_analyzer import GeminiVisionAnalyzer
+                    self._vision = GeminiVisionAnalyzer()
+                    logger.info("Vision AI loaded")
+                finally:
+                    signal.alarm(0)  # Cancel alarm
+
             except Exception as e:
                 logger.error(f"Failed to load Vision AI: {e}")
         return self._vision

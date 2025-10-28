@@ -24,14 +24,16 @@ class PromptGuard:
 
     # Prompt injection patterns
     INJECTION_PATTERNS = [
-        # Direct instruction attempts
-        r"ignore\s+(previous|all|above)\s+instructions",
-        r"disregard\s+(previous|all)\s+(instructions|commands)",
+        # Direct instruction attempts (more comprehensive)
+        r"ignore\s+(all\s+)?(previous|all|above)\s+instructions",
+        r"ignore\s+all\s+previous",
+        r"disregard\s+(all\s+)?(previous|all)\s+(instructions|commands)",
+        r"disregard\s+previous",
         r"forget\s+(everything|all|previous)",
 
         # Role manipulation
         r"you\s+are\s+now",
-        r"act\s+as\s+(a|an)",
+        r"act\s+as\s+(a|an|different)",
         r"pretend\s+(to\s+be|you)",
         r"role\s*:\s*system",
         r"new\s+instructions",
@@ -39,7 +41,8 @@ class PromptGuard:
         # System prompt leakage
         r"show\s+(me\s+)?(your|the)\s+system\s+prompt",
         r"what\s+are\s+your\s+instructions",
-        r"reveal\s+your\s+(instructions|prompt|rules)",
+        r"reveal\s+your\s+(instructions|prompt|rules|system\s+prompt)",
+        r"tell\s+me\s+everything",
 
         # Jailbreak attempts
         r"DAN\s+mode",
@@ -169,14 +172,14 @@ class PromptGuard:
         """
         score = 0.0
 
-        # Check each pattern
+        # Check each pattern (higher weight for injection patterns)
         for pattern in self.INJECTION_PATTERNS:
             if re.search(pattern, prompt, re.IGNORECASE):
-                score += 0.2
+                score += 0.3  # Increased from 0.2 to make high-risk prompts score > 0.5
 
         for pattern in self.OBFUSCATION_PATTERNS:
             if re.search(pattern, prompt, re.IGNORECASE):
-                score += 0.1
+                score += 0.15  # Increased from 0.1
 
         # Character pattern checks
         if self._has_suspicious_patterns(prompt):

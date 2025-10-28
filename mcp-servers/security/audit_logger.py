@@ -186,11 +186,12 @@ class AuditLogger:
         """Log security-related event"""
         self.log_event(
             message=f"Security event: {event_type} - {description}",
-            level=severity,
+            level=AuditLevel.SECURITY,  # Always log security events with SECURITY level
             category=AuditCategory.SECURITY_EVENT,
             user=user,
             metadata={
                 'event_type': event_type,
+                'severity': severity.value,  # Store original severity in metadata
                 **(metadata or {})
             }
         )

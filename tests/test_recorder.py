@@ -76,7 +76,9 @@ class TestWorkflowCapture(unittest.TestCase):
             action_type='browser',
             tool_name='click',
             parameters={'selector': '#button'},
-            result={'error': 'Element not found'}
+            result={'error': 'Element not found'},
+            success=False,  # Explicitly mark as failed
+            error='Element not found'  # Add error message
         )
 
         action = self.capture.current_session.actions[0]

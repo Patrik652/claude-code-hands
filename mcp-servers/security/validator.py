@@ -40,6 +40,8 @@ class SecurityValidator:
         r'>\s*/dev/',  # Device file access
         r'/proc/',  # Process file system
         r'/sys/',  # System file system
+        r'/etc/(passwd|shadow|sudoers)',  # Sensitive system files
+        r'\bcat\b.*(/etc/|/var/log/)',  # Reading sensitive files
     ]
 
     # SQL injection patterns
