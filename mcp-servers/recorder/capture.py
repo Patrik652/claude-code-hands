@@ -9,7 +9,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class RecordingSession:
     """Represents a recording session"""
     session_id: str
     name: str
-    started_at: float
+    started_at: float = field(default_factory=time.time)
     ended_at: Optional[float] = None
     actions: List[CapturedAction] = None
     metadata: Dict[str, Any] = None

@@ -43,7 +43,8 @@ class WorkflowGenerator:
     def generate_workflow(
         self,
         session: RecordingSession,
-        workflow_name: Optional[str] = None
+        workflow_name: Optional[str] = None,
+        optimize: Optional[bool] = None
     ) -> Dict[str, Any]:
         """
         Generate workflow from recording session
@@ -51,11 +52,15 @@ class WorkflowGenerator:
         Args:
             session: Recording session
             workflow_name: Optional workflow name
+            optimize: Override optimization setting (default: use config)
 
         Returns:
             Workflow definition dictionary
         """
         workflow_name = workflow_name or session.name
+
+        # Use parameter or fall back to config
+        should_optimize = optimize if optimize is not None else self.optimize
 
         # Initialize workflow structure
         workflow = {

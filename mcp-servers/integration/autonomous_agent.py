@@ -35,7 +35,7 @@ class AutonomousAgent:
         self.config = config or {}
 
         # Initialize orchestrator
-        self.orchestrator = AIOrchestrator(config.get('orchestrator', {}))
+        self.orchestrator = AIOrchestrator(self.config.get('orchestrator', {}))
 
         # Agent settings
         self.confidence_threshold = self.config.get('confidence_threshold', 0.7)
@@ -459,8 +459,14 @@ class AutonomousAgent:
         Returns:
             Agent statistics
         """
+        # Calculate success/failure counts from task history
+        successful_actions = sum(1 for task in self.task_history if task.get('success', False))
+        failed_actions = len(self.task_history) - successful_actions
+
         return {
-            'total_tasks': len(self.task_history),
+            'total_decisions': len(self.task_history),
+            'successful_actions': successful_actions,
+            'failed_actions': failed_actions,
             'current_task': self.current_task,
             'learning_enabled': self.learning_enabled,
             'confidence_threshold': self.confidence_threshold,

@@ -97,6 +97,16 @@ class AIOrchestrator:
                 logger.error(f"Failed to load Workflow Recorder: {e}")
         return self._recorder
 
+    @property
+    def recording(self):
+        """Alias for is_recording (for backwards compatibility with tests)"""
+        return self.is_recording
+
+    @property
+    def validator(self):
+        """Alias for security (for backwards compatibility with tests)"""
+        return self.security
+
     async def execute_secure_action(
         self,
         action_type: str,
@@ -371,5 +381,8 @@ class AIOrchestrator:
             'recording': {
                 'is_recording': self.is_recording,
                 'session_id': self.current_session_id
-            }
+            },
+            # Backwards compatibility with tests
+            'memory_initialized': self._memory is not None,
+            'vision_initialized': self._vision is not None
         }

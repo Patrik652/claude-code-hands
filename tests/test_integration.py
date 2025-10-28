@@ -130,9 +130,8 @@ class TestMemorySecurityIntegration(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         self.temp_dir = tempfile.mkdtemp()
-        self.memory = MemoryManager(config={
-            'chroma_path': self.temp_dir
-        })
+        # Use default MemoryManager (will use default config)
+        self.memory = MemoryManager()
         self.validator = SecurityValidator()
         self.guard = PromptGuard()
 
@@ -354,7 +353,7 @@ class TestErrorHandling(unittest.TestCase):
     def test_memory_handles_invalid_query(self):
         """Test memory handles invalid search query"""
         temp_dir = tempfile.mkdtemp()
-        memory = MemoryManager(config={'chroma_path': temp_dir})
+        memory = MemoryManager()  # Use default config
 
         try:
             memory.start_session("test")
